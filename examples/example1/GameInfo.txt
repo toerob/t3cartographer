@@ -1,0 +1,12 @@
+IFID: F8CF2680-32CF-4C6B-BAC2-78A0AD1097E1
+Name: Tads3 Cartographer Lib Example
+Byline: by Tomas ��berng
+HtmlByline: by <a href="mailto:tomaserikoberg@gmail.com">Tomas ��berg</a>
+AuthorEmail: Tomas ��berg tomaserikoberg@gmail.com
+Desc: An example of how to use the Tads 3 cartographer library, http://github.com/toerob/t3mapper
+HtmlDesc: An example of how to use the Tads 3 cartographer library, http://github.com/toerob/t3mapper
+Version: 1
+ReleaseDate: 2021-02-13
+LicenseType: Freeware
+CopyingRules: Nominal cost only; compilations allowed
+PresentationProfile: Default

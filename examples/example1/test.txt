@@ -1,0 +1,1 @@
+<path d="M 20,20  20,10  50,60 60,60" fill="none" stroke="red"  style="font: bold 16px sans-serif; stroke:rgb(70,70,70);stroke-width:2" 

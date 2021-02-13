@@ -1,0 +1,27 @@
+digraph Map {
+  node [shape=box,width=1.0,height=.1];
+  node [style="rounded"];
+  edge [dir=none];
+  splines=line;
+  concentrate=true
+  subgraph map {
+      {  "on the meadow":s -> "the back yard":n [dir=back arrowtail=none] }
+  { rank=same; "the garden north":e -> "on the meadow":w [dir=back arrowtail=none] }
+  {  "the garden north":s -> "the garden south":n [dir=back arrowtail=none] }
+  {  "the garden south":se -> "the back yard":nw [dir=back arrowtail=none] }
+  {  "living room":s -> "hallway":n [dir=back arrowtail=none] }
+  {  "bedroom":s -> "landing":n [dir=back arrowtail=none] }
+  { rank=same; "landing":e -> "bathroom":w [dir=back arrowtail=none] }
+  {  "landing":c -> "hallway":_ [dir=back arrowtail=none] }
+  {  "the back yard":s -> "on the east side of the house":n [dir=back arrowtail=none] }
+  { rank=same; "hallway":e -> "kitchen":w [dir=back arrowtail=none] }
+  {  "hallway":s -> "porch":n [dir=back arrowtail=none color=red penwidth=3.0] }
+  {  "hallway":_ -> "landing":c [dir=back arrowtail=none] }
+  {  "hallway":_ -> "porch":c [dir=back arrowtail=none] }
+  {  "porch":se -> "on the driveway":nw [dir=back arrowtail=none] }
+  {  "porch":c -> "hallway":_ [dir=back arrowtail=none] }
+  { rank=same; "long road west end":e -> "long road east end":w [dir=back arrowtail=none] }
+  { rank=same; "on the east side of the house":e -> "long road west end":w [dir=back arrowtail=none] }
+  {  "on the east side of the house":sw -> "on the driveway":ne [dir=back arrowtail=none] }
+  }
+}

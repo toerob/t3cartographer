@@ -1,0 +1,12 @@
+Name: Example 2 - WebUI Tads3 - adv3 library
+Byline: by Tomas ��berg
+HtmlByline: by <a href="mailto:tomaserikoberg@gmail.com">Tomas ��berg</a>
+AuthorEmail: Tomas ��berg tomaserikoberg@gmail.com
+Desc: Example 2
+HtmlDesc: Example 2
+Version: 1
+ReleaseDate: 2021-02-13
+Language: en-US
+LicenseType: Freeware
+CopyingRules: Nominal cost only; compilations allowed
+PresentationProfile: Default

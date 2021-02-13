@@ -1,0 +1,30 @@
+# TADS 3 makefile
+
+-I /usr/local/share/frobtads/tads3/include/
+-I /usr/local/share/frobtads/tads3/lib/
+-I /usr/local/share/frobtads/tads3/lib/adv3Lite
+-I /usr/local/share/frobtads/tads3/lib/adv3Lite/english
+
+-we
+-pre
+-D LANGUAGE=english
+-Fy obj
+-Fo obj
+-v
+-w1
+-o example3.t3
+-d
+
+##sources
+-lib system
+-lib adv3Lite/adv3Lite
+
+-lib ../../cartographer
+-source ../../renderers/svg-renderer
+-source ../../renderers/scalable-text-renderer
+-source ../../renderers/trizbort-renderer
+-source ../../renderers/ifm-renderer
+-source example3
+
+-res
+GameInfo.txt

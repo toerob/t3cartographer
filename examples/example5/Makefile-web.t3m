@@ -1,0 +1,53 @@
+# TADS 3 makefile
+#
+# Warning: this file was mechanically generated.  You may edit this file
+# manually, but your changes might be modified or discarded when
+# you load this file into a TADS development tool.  The TADS tools
+# generally retain the comment at the start of the file and the
+# comment marked "##sources" below, but other comments might be
+# discarded, the formatting might be changed, and some option
+# settings might be modified.
+
+# Standard TADS comments above
+# This project was generated using Anthony Irwin's Yeoman Generator
+# generator-tads you can get the latest version from
+# https://github.com/anthonyirwin82/generator-tads
+
+# To compile the web version run t3make -f Makefile-web
+
+# To test the web version run the following command:
+# frob -i plain -s 44 -N 00 -p tads3-web.t3
+
+
+-I /usr/local/share/frobtads/tads3/include/
+-I /usr/local/share/frobtads/tads3/lib/
+-I /usr/local/share/frobtads/tads3/lib/adv3Lite
+-I /usr/local/share/frobtads/tads3/lib/adv3Lite/english
+
+-we
+-D TADS_INCLUDE_NET
+-D LANGUAGE=en_us
+-D MESSAGESTYLE=neu
+-Fy obj
+-Fo obj
+-v
+-o example5-web.t3
+
+
+##sources
+-lib  system
+-lib  webui
+-source tadsnet
+-lib adv3/adv3web
+
+-lib ../../cartographer
+-source ../../renderers/text-renderer
+-source ../../renderers/scalable-text-renderer
+-source ../../renderers/html-renderer
+-source ../../renderers/svg-renderer
+-source ../../renderers/dot-renderer
+
+-source example5
+
+-res
+GameInfo.txt
