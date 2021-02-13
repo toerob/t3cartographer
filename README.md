@@ -274,7 +274,7 @@ So now instead of having this:
 
 **fig.7**
 
-You can instad have this:
+You can instead have this:
 
 <img src="./examples/screenshots/screenshot4.png">
 
@@ -305,18 +305,14 @@ If there's a location connected with an 'in' direction, that room will also be r
 
 
 ## pathConnectionTable
-The idea of the pathConnectionTable is to provide an override for each room's connection to another room.
-Sometimes we don't want the line connection the rooms to be mirrored in a north <-> south manner, but rather
-want for instance the north exit from a room connect to the east exit on the adjacent room. And since we should always mirror the connections between the rooms when altering them we might turn up in a situation that looks like this:
+The idea of the pathConnectionTable is to provide an override hook for each room's connection to another room. Sometimes we don't want the line connection the rooms to be mirrored in a north <-> south manner, but rather want for instance the north exit from a room connect to the east exit on the adjacent room. The default locations where these connections attaches on each tile might cause us pathways that looks like they do in fig.9:
 
 <img src="./examples/screenshots/screenshot9.png">
 
 **fig.9**
 
+We can change the defaults by specifying a pathConnectionTable with the tilemap edges we wish to associate with each other for this specific room, e.g: 
 
-We can remedy this by specifying a pathConnectionTable with the directions you wish to associate with each other:
-
-Example: 
 ```
 pathConnectionTable = [&north -> &east,  &south -> &east]
 ```
