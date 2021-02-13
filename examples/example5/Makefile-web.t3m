@@ -24,6 +24,7 @@
 -I /usr/local/share/frobtads/tads3/lib/adv3Lite
 -I /usr/local/share/frobtads/tads3/lib/adv3Lite/english
 
+
 -we
 -D TADS_INCLUDE_NET
 -D LANGUAGE=en_us
@@ -45,7 +46,6 @@
 -source ../../renderers/scalable-text-renderer
 -source ../../renderers/html-renderer
 -source ../../renderers/svg-renderer
--source ../../renderers/dot-renderer
 
 -source example5
 

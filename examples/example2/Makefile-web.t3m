@@ -43,7 +43,6 @@
 -source ../../renderers/scalable-text-renderer
 -source ../../renderers/html-renderer
 -source ../../renderers/svg-renderer
--source ../../renderers/dot-renderer
 
 -source example2
 

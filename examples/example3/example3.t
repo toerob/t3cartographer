@@ -25,9 +25,6 @@ versionInfo: GameID
 gameMain: GameMainDef
     initialPlayerChar = me
     showIntro() {
-        local r = new IfmRenderer();
-        r.populate([westOfHouse, forestW, clearingNorth]);
-        "<<r.render()>>";
     }
 ;
 

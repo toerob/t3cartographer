@@ -22,8 +22,6 @@
 -lib ../../cartographer
 -source ../../renderers/svg-renderer
 -source ../../renderers/scalable-text-renderer
--source ../../renderers/trizbort-renderer
--source ../../renderers/ifm-renderer
 -source example3
 
 -res

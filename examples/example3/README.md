@@ -11,6 +11,8 @@ This example shows off almost all the features mentioned in the manual. mapCoord
 Compile and run the game typing: 
 
  ``` 
+    mkdir obj #if obj-directory is missing
+
     t3make && frob example3.t3
  ```
 

@@ -98,7 +98,7 @@ DefineIAction(Map)
     }
 ;
 
-
+//Comment away this when not compiling for webui
 WebResourceResFile
    vpath = static new RexPattern('/images/')
 ;
