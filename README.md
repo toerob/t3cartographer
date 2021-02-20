@@ -221,6 +221,46 @@ saveStringToFile(svgTileMap, 'svgmap.gv');
 See example1 in examples for a complete example. 
 
 
+
+## keeping the result of a crawl and using renderPredicates (SvgTileMap)
+
+To be bit more efficient about the rendering of the rooms, it can be a good idea to crawl all the rooms first, store the result in a list, create a tilemap with that result and just re-render that map instead of redoing the whole procedure each time. However if the roomCrawler should visit all rooms no matter if they have been visited or not, then the tilemap will have to take over that responsibility.
+
+SvgTileMap.renderPredicates therefore holds a list (empty as default) of predicates that can be set to condition what rooms (and its outgoing paths) should be rendered or not. 
+
+A convenient predicate to display only visited rooms is statically declared inside the SvgTileMap called "SvgTileMap.renderOnlyVisitedRooms" , which itself is equivalent to: "{room: libGlobal.playerChar.hasSeen(room)}"
+
+To add it just type:
+```
+svgTileMap.renderPredicates = [SvgTileMap.renderOnlyVisitedRooms];
+```
+
+
+One solution to keep the crawling result could look like the following:
+
+```
+mapManager: object
+    roomCrawler = nil 
+    rooms = nil
+    svgTileMap = nil
+    
+    initMap() {
+        roomCrawler = new RoomCrawler();
+        rooms = roomCrawler.crawl(gPlayerChar.location); 
+        svgTileMap = new SvgTileMap(roomCrawler.maxX, roomCrawler.maxY, 70, 50);
+        svgTileMap.renderPredicates = [SvgTileMap.renderOnlyVisitedRooms];
+        svgTileMap.populate(rooms);
+    }
+    drawMap() {
+        "<<svgTileMap.render()>>";
+    }
+;
+
+```
+
+Now you can just call mapManager.initMap() at the beginning of the game, and then call drawMap() each time you want to render it.
+
+
 ## Handling more complex maps
 
 In a perfect world the alignments of the rooms would always be perfect and the game mapping engine would of course figure out exactly how you intended things in your imagination to end up on the screen, right? The cartographer library cannot draw many such conclusions (yet). Rather it assumes that you won't put rooms next to each other and still make them go cross each other. 
@@ -228,14 +268,14 @@ In a perfect world the alignments of the rooms would always be perfect and the g
 However in order to overcome this restriction, there are a few tools at your disposal. One is **the map distance length table** (mapDistanceLengthTable) which is set per room basis if needed.  Another is **map regions** (an array of arrays being setup in RoomCrawler.setupMapRegions if needed)
 
 If you want almost full control there's also:
-    **overrideMapCellProperties**
-    **pathConnectionTable**
+    **overrideMapCellProperties**,
+    **pathConnectionTable**,
     **mapCoordsOverride**,
-    **mapConnectionShape**
-    and 
-    **svgGfx**
+    **mapConnectionShape**,
+    **svgGfx**,
+    and **overrideMapCellConstruction**
     
-(All set per room basis.)
+(All set per room basis).
  
 ## overrideMapCellProperties
 
@@ -243,7 +283,7 @@ The **overrideMapCellProperties** is a LookupTable which supports the following 
 
 ```
 overrideMapCellProperties = [ 
-    'shape'->'ellipse',  
+    'shape'->'ellipse',
     'width' -> 80, 
     'height' -> 120, 
     'offsetX' -> 20,
@@ -320,7 +360,8 @@ Note: mapConnectionShape always expects a string value as return value.
 **svgGfx** Let's us tap into the specific coordinates of a cell to draw some extra cell graphics if wanted.
 It has four parameters, x,y, width and height which gives us the cells's current position and form values:
 
-Usage:
+Example usage:
+
 ```
 room: Room
     svgGfx(x,y,w,h) {
@@ -328,6 +369,28 @@ room: Room
     }
 ;
 ```
+
+## overrideMapCellConstruction
+
+In case the shapes available in how the room should be depicted by default isn't satifying enough, you can override the cell construction itself via overrideMapCellConstruction method hook per room.
+
+Example usage: 
+
+```
+room: Room
+    overrideMapCellConstruction(cell, name, x, y, width, height, isPlayerTile)
+        local s = new StringBuffer();
+        local style = isPlayerTile? gMapThemes.getPlayerRectStyle() : nil;
+        local cellCenterX = x+cell.getWidth()/2;
+        local cellCenterY = y+(cell.getHeight()/2) + 3;
+        s.append(createRect(x,y,  width, height, style, attributes));
+        s.append(createMiddleCentedText(cellCenterX,cellCenterY, name));
+        return s;
+    }
+;
+```
+This example just creates the default rectangle. But go crazy here if you like.
+
 
 ## mapDistanceLengthTable
 The mapDistanceLengthTable is a LookupTable that will connect a direction from the room with a number of specified tiles away from it. (If the mapDistanceLengthTable is not defined the assumption of one tile will be drawn). But if it is there and say connecting the &north direction with 2 tiles in length, the room that connects with it using that direction will be drawn two tiles north. Make sure though to mirror this in the north room, otherwise it will be drawn with a gap when standing north of it, and only look good when standing south of it. So in the opposite room, add a mapDistanceLengthTable = [ &south -> 2 ]. 

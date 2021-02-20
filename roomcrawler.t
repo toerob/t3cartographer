@@ -54,6 +54,8 @@ class RoomCrawler: object
 
     region = nil
 
+    showDebugInfo = nil
+
     setupMapRegions(mapRegions) {
         self.mapRegions = mapRegions;
     }
@@ -107,6 +109,9 @@ class RoomCrawler: object
             }
         }
         room.mapCoords = coords;
+        if(showDebugInfo) {
+            "Crawling through room <<room>>  x:<<room.mapCoords[1]>> y:<<room.mapCoords[2]>> z:<<room.mapCoords[3]>>\n";
+        }
 
         if ( room.mapCoords[1] < minX) minX = room.mapCoords[1];
         if ( room.mapCoords[1] > maxX) maxX = room.mapCoords[1];
@@ -135,7 +140,11 @@ class RoomCrawler: object
                     if(nextRoom.propDefined(&otherSide) 
                     && nextRoom.otherSide.propDefined(&location)
                     && nextRoom.otherSide.location.ofKind(Room)) {
+                        if(showDebugInfo) {
+                            " -> Passing through door (<<nextRoom>>) to: \n \ \ ";
+                        }
                         nextRoom = nextRoom.otherSide.location;
+
                         //"\nDoor leads to: <<nextRoom>>\n";
                     } else {
                         //"\nThe door doesn't lead to a room but to: <<nextRoom>>\n";
@@ -147,6 +156,9 @@ class RoomCrawler: object
                         nextRoom = nextRoom.destination;
                     } else {
                         if(nextRoom.propDefined(&getDestination)) {
+                            if(showDebugInfo) {
+                                "Passing through door (<<nextRoom>>)";
+                            }
                             //"ADV3 specifics";
                             nextRoom = nextRoom.getDestination(libGlobal.playerChar, room);
                         }    
@@ -157,8 +169,9 @@ class RoomCrawler: object
                     nextRoom = nextRoom.(dir);
                 } else if(nextRoom.ofKind(Room)) {
                     //"Regular room";
+                    
                 } else {
-                    "Cannot handle connection of datatype: <<dataType(nextRoom)>>";
+                    "Cannot handle connection of datatype: <<dataType(nextRoom)>> for (<<room>>) to <<nextRoom>>";
                     continue; 
                 }
 
@@ -224,9 +237,12 @@ class RoomCrawler: object
         maxY += translateY + 1;
 
         foreach(local room in processed) {
+
             room.mapCoords[1] += translateX;
             room.mapCoords[2] += translateY;
-            //"aligning <<r>> x:<<r.mapCoords[1 >> y:<<r.mapCoords[2]>>\n";
+            if(showDebugInfo) {
+                "Aligning room <<room>>  x:<<room.mapCoords[1]>> y: <<room.mapCoords[2]>> z: <<room.mapCoords[3]>>\n";
+            }
         }
     }
 ;

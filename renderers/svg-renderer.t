@@ -158,6 +158,20 @@ class SvgTileMap: Tilemap {
         cells = new Vector(cellCount, cellCount).fillValue(nil);
     }
 
+    renderOnlyVisitedRooms = static function(room) {
+        return libGlobal.playerChar.hasSeen(room);
+    }
+
+    renderPredicates = []   // e.g: [{room: libGlobal.playerChar.hasSeen(room)}]
+
+    isRoomToBeRendered(room) {
+        foreach(local predicate in renderPredicates) {
+            if(!predicate(room))
+                return nil;
+        }
+        return true;
+    }
+
     /**
      * populates the tilemap with rooms 
      */
@@ -256,7 +270,6 @@ class SvgTileMap: Tilemap {
         return '[' +originalName.substr(0,19)+ ']';
     }
 
-
     renderTile(x, y, cell) {
         local s = new StringBuffer();
             
@@ -272,6 +285,9 @@ class SvgTileMap: Tilemap {
                             'fill="none" '));
         }
         if(cell) {
+            if(!isRoomToBeRendered(cell.roomRef)) {
+                return s;
+            }
 
             cellList += cell;
 
@@ -316,10 +332,10 @@ class SvgTileMap: Tilemap {
                 name = cell.abbreviatedName;
             }
 
+            local isPlayerTile = cell.roomRef == libGlobal.playerChar.location;
             if(cell.roomRef.propDefined(&overrideMapCellConstruction)) {
-                cell.roomRef.overrideMapCellConstruction(cell, name, useX, useY, useWidth, useHeight);
+                s.append(cell.roomRef.overrideMapCellConstruction(cell, name, useX, useY, useWidth, useHeight, isPlayerTile));
             } else {
-                local isPlayerTile = cell.roomRef == libGlobal.playerChar.location;
                 s.append(createTile(cell, name, overrideShape, useX, useY, useWidth, useHeight, isPlayerTile));
             }
             if(cell.roomRef.propDefined(&svgGfx)) {
@@ -620,10 +636,15 @@ function createText(x,y,name) {
 
 
 // TODO: handle word wrap
-function createMiddleCentedText(x,y,name) {
-    return new StringBuffer()
-        .append('<text x="<<x>>" y="<<y>>" text-anchor="middle" <<gMapThemes.getTextAttributes()>>  style="<<gMapThemes.getTextStyle()>>"><<name>>')
-        .append('</text>');
+function createMiddleCentedText(x,y,name, style?, attr?) {
+    if(style == nil) {
+        style = gMapThemes.getTextStyle();
+    }
+    if(attr == nil) {
+        attr = gMapThemes.getTextAttributes();
+    }
+
+    return '<text x="<<x>>" y="<<y>>" text-anchor="middle" <<attr>>  style="<<style>>"><<name>> </text>';
 }
 
 function createUpSymbol(x, y, width, height, attr?) {
