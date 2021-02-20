@@ -621,21 +621,10 @@ function createRect(x,y, width, height, style?, attr?) {
             />';
 }
 
-
-
-function createPlayer(x,y) {
-    return new StringBuffer();
-}
-
 function createText(x,y,name) {
-    return new StringBuffer()
-        .append('<text x="<<x>>" y="<<y>>" <<gMapThemes.getTextAttributes()>> style="<<gMapThemes.getTextStyle()>>"><<name>>')
-        .append('</text>');
+    return '<text x="<<x>>" y="<<y>>" <<gMapThemes.getTextAttributes()>> style="<<gMapThemes.getTextStyle()>>"><<name>></text>';
 }
 
-
-
-// TODO: handle word wrap
 function createMiddleCentedText(x,y,name, style?, attr?) {
     if(style == nil) {
         style = gMapThemes.getTextStyle();
@@ -643,81 +632,61 @@ function createMiddleCentedText(x,y,name, style?, attr?) {
     if(attr == nil) {
         attr = gMapThemes.getTextAttributes();
     }
-
     return '<text x="<<x>>" y="<<y>>" text-anchor="middle" <<attr>>  style="<<style>>"><<name>> </text>';
 }
 
-function createUpSymbol(x, y, width, height, attr?) {
-    /*local stairStepStructure = new Vector([[0,4], [4,4], [4,4], [4,8], [8,8], [8,12], [12,12], [12,16], [16,16]]);
-    local translatedStairList = stairStepStructure.applyAll({s: '<<s[1]+x>> <<s[2]+y>>'});
-    local stairStepsStr = translatedStairList.join(',');
-    return new StringBuffer()
-        .append('<polyline points="<<stairStepsStr>>"
-  style="fill:none;stroke:black;stroke-width:2" />')
-        ;*/
+function createUpSymbol(x, y, width, height, style?, attr?) {
+    if(style == nil) {
+        style = gMapThemes.getLineStyle();
+    }
     if(attr == nil) {
         attr = gMapThemes.getUpDownSymbolsAttributes();
     }
-    return '
-   <path <<attr>> 
-    transform="translate(<<x>> <<y+2>>)"
-    d="M10,0 L17,5 
-     L12,5
-     L12,13 
-     L8,13 
-     L8,5 
-     L3,5 
-     L10,0"  />
-
-';
+    return '<path <<attr>> transform="translate(<<x>> <<y+2>>)" style="<<style>>" 
+            d="M10,0 L17,5 
+            L12,5
+            L12,13 
+            L8,13 
+            L8,5 
+            L3,5 
+            L10,0"  />';
 }
 
-
-
-function createDownSymbol(x, y, width, height, attr?) {
+function createDownSymbol(x, y, width, height, style?, attr?) {
+    if(style == nil) {
+        style = gMapThemes.getLineStyle();
+    }
     if(attr == nil) {
         attr = gMapThemes.getUpDownSymbolsAttributes();
     }
     return '<path <<attr>>
-        transform="
-            rotate(180 <<x+width>> <<y+height-2>>) 
-            translate(<<x+width>> <<y+height-2>>)"
-
-    d="M10,0 L17,5 
-     L12,5
-     L12,13 
-     L8,13 
-     L8,5 
-     L3,5 
-     L10,0"  />
-
-';
-
-     
+        transform="rotate(180 <<x+width>> <<y+height-2>>) translate(<<x+width>> <<y+height-2>>)" style="<<style>>" 
+            d="M10,0 L17,5 
+            L12,5
+            L12,13 
+            L8,13 
+            L8,5 
+            L3,5 
+            L10,0"  />';
 }
 
 
-function createInSymbol(x, y, width, height, style?) {
-    if(style == nil) {
-        style = gMapThemes.getRectStyle();
-    }
+function createInSymbol(x, y, width, height, style?, attr?) {
+    style = style? style : gMapThemes.getRectStyle();
+    attr = attr? attr : gMapThemes.getRectAttributes();
     return '<text x="<<x+width-25>>" y="<<y+15>>" style="<<style>>">[in]</text>';
 }
 
-function createOutSymbol(x, y, width, height, style?) {
-    if(style == nil) {
-        style = gMapThemes.getRectStyle();
-    }
+function createOutSymbol(x, y, width, height, style?, attr?) {
+    style = style? style : gMapThemes.getRectStyle();
+    attr = attr? attr : gMapThemes.getRectAttributes();
     return '<text x="<<x+5>>" y="<<y+height-5>>" style="<<style>>">[out]</text>';
 }
 
-
-
-
-// TODO: make line a separate class
-function createDashedLine(x1,y1,x2,y2, attr?) {
+function createDashedLine(x1,y1,x2,y2, style?, attr?) {
+    style = style? style : gMapThemes.getLineStyle();
     attr = attr? attr : 'stroke-dasharray="10 5"';
-    return createLine(x1,y1,x2,y2, nil, attr);
+    return createLine(x1,y1,x2,y2, style, attr);
 }
 
 function createLine(x1,y1,x2,y2, style?, attr?) {
@@ -738,23 +707,17 @@ function createDashedCrookedLine(x1,y1,x2,y2, direction, flipped?, xValue?, yVal
 }  
       
 function createCrookedLine(x1,y1,x2,y2, direction, flipped?, xValue?, yValue?, style?, attr?) {
-
     style = style? style : gMapThemes.getLineStyle();
-
     attr = attr? attr : gMapThemes.getLineAttributes();
-
     if(xValue==nil) {
         xValue = 30;
     }
     if(yValue==nil) {
         yValue = 30;
     }
-
-
     if(direction==&northeast) {
         return '<path d="M <<x1>>,<<y1>>  <<x1>>,<<y1-yValue>>  <<x2-xValue>>,<<y2>> <<x2>>,<<y2>>" <<attr>> style = "<<gMapThemes.getLineStyle()>>" />';
     }
-
     if(direction==&southwest) {
         if(flipped) {
             return '<path d="M <<x1>>,<<y1>>  <<x1>>,<<y1+yValue>>  <<x2+xValue>>,<<y2>> <<x2>>,<<y2>>"
@@ -771,7 +734,6 @@ function createCrookedLine(x1,y1,x2,y2, direction, flipped?, xValue?, yValue?, s
         return '<path d="M <<x1>>,<<y1>>  <<x1+xValue>>,<<y1>>  <<x2>>,<<y2-yValue>> <<x2>>,<<y2>>"
             <<attr>> style = "<<style>>" />';
     }
-
     return createLine(x1,y1,x2,y2);
 }
 
