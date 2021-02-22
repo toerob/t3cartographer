@@ -162,6 +162,10 @@ The first parameter sets the starting point to crawl from, and the second boolea
 Next up is to decide on a renderer. if you like to go with SVG, use SvgTileMap:
 ``` 
     local svgTileMap = new SvgTileMap(roomCrawler.maxX, roomCrawler.maxY);
+    
+    svgTileMap.populate(rooms);
+    "<<svgTileMap.render()>>";
+    
 ```
 This will render a complete svg formatted file to a string that you can do whatever you want with.
 
