@@ -164,10 +164,11 @@ Next up is to decide on a renderer. if you like to go with SVG, use SvgTileMap:
     local svgTileMap = new SvgTileMap(roomCrawler.maxX, roomCrawler.maxY);
     
     svgTileMap.populate(rooms);
-    "<<svgTileMap.render()>>";
+    saveStringToFile(svgTileMap.render(), 'map.svg');
     
 ```
-This will render a complete svg formatted file to a string that you can do whatever you want with.
+This will render a complete svg formatted file (map.svg) in the folder of the compiled game that you can do whatever you want with.
+(Optionally you can print the svg directly in the game but that will require it running in webui for the svg elements to render correctly, see the examples for inspiration on how to do that.)
 
 The two parameters where we use the values of roomCrawler.maxX, respectively roomCrawler.maxY is unit number that will be converted to pixels depending on width, height and padding settings in the SvgTileMap. The variables maxX and maxY here means to how many tiles x-wise and y-wise have been counted to during the crawling process. So when we create a tilemap we know how big that tilemap must be in order to make room for all rooms.)
 
