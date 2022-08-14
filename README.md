@@ -16,7 +16,7 @@ At the bare minimum you just need to import it and supply a map command to get s
 In your Makefile add:
 ```
     -lib ../cartographer
-    -source ../renderers/scaled-text-renderer
+    -source ../renderers/scalable-text-renderer
     -source ../renderers/svg-renderer
 ```
 
