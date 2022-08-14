@@ -41,7 +41,7 @@ DefineIAction(Map)
          
         // (Optionally)
         // Render and display an in-game ascii map
-        local textMap = new ScaledTextTileMap(roomCrawler.maxX, roomCrawler.maxY);
+        local textMap = new ScalableTextTileMap(roomCrawler.maxX, roomCrawler.maxY);
         textMap.populate(rooms);
         "<<textMap.render()>>";
     }
@@ -73,9 +73,9 @@ I would though recommend the *WebUI* instead since it has more advantages in ren
 
 If you want to stay true with the textformat (and perhaps get a mud revival feeling), you might want to use the two pure text-renderers which can output the map in text-format in any interpreter, including the text-only ones. 
 
-The two choices here are to either go with the ScaledTextRenderer that displays connections and doors, where the output looks like this:
+The two choices here are to either go with the ScalableTextTileMap that displays connections and doors, where the output looks like this:
 
-### ScaledTextRenderer
+### ScalableTextTileMap
 
 <img src="./examples/screenshots/screenshot2.png">
 fig.3
@@ -201,7 +201,7 @@ The same could be said about the support for the graphviz dot, format which is a
     local dotMap = renderGraphvizDotMap(rooms);
 ``` 
 
-The ScaledTextTileMap and TextTileMap renderer will render a textbased map as seen in fig.3 and fig.4:
+The ScalableTextTileMap and TextTileMap renderer will render a textbased map as seen in fig.3 and fig.4:
 ``` 
     local map = new TextTileMap(roomCrawler.maxX,roomCrawler.maxY);
     map.populate(rooms);
@@ -584,9 +584,9 @@ instead of just typing:
 ```
 to include the whole library with all renderers, type: 
 ```
-    -lib ../cartohrapher-all -x renderers/scaled-text-renderer -x renderers/dot-renderer
+    -lib ../cartohrapher-all -x renderers/scalable-text-renderer -x renderers/dot-renderer
 ```
-that will in this case remove the scaled-text-renderer and dot-renderer from compilation. 
+that will in this case remove the scalable-text-renderer and dot-renderer from compilation. 
 
 
 
@@ -596,7 +596,7 @@ that will in this case remove the scaled-text-renderer and dot-renderer from com
 ```
 And instead add each renderer separately.
 ```
-    -source ../renderers/scaled-text-renderer
+    -source ../renderers/scalable-text-renderer
     -source ../renderers/svg-renderer
 ```
 
